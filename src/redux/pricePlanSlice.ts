@@ -17,7 +17,7 @@ const initialState: PricePlanState = {
 export const fetchPricePlans = createAsyncThunk<PricePlan[]>(
   "pricePlans/fetchPricePlans",
   async () => {
-    const response = await axios.get("http://localhost:3000/pricesplans");
+    const response = await axios.get("http://localhost:5050/pricesplans");
     return response.data;
   }
 );
@@ -26,7 +26,7 @@ export const editPricePlan = createAsyncThunk<PricePlan, PricePlan>(
   "pricePlans/editPricePlan",
   async (updatedPricePlan) => {
     const response = await axios.put(
-      `http://localhost:3000/pricesplans/${updatedPricePlan.id}`,
+      `http://localhost:5050/pricesplans/${updatedPricePlan.id}`,
       updatedPricePlan
     );
     return response.data;

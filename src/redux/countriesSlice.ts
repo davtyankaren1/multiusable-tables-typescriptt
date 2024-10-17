@@ -18,7 +18,7 @@ export const fetchCountries = createAsyncThunk<Country[]>(
   "countries/fetchCountries",
   async () => {
     const response = await axios.get<Country[]>(
-      "http://localhost:3000/countries"
+      "http://localhost:5050/countries"
     );
     return response.data;
   }
@@ -28,7 +28,7 @@ export const editCountry = createAsyncThunk<Country, Country>(
   "countries/editCountry",
   async (updatedCountry) => {
     const response = await axios.put<Country>(
-      `http://localhost:3000/countries/${updatedCountry.id}`,
+      `http://localhost:5050/countries/${updatedCountry.id}`,
       updatedCountry
     );
     return response.data;

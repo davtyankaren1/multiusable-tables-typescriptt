@@ -17,7 +17,7 @@ const initialState: PageState = {
 export const fetchPages = createAsyncThunk<Page[]>(
   "pages/fetchPages",
   async () => {
-    const response = await axios.get("http://localhost:3000/pages");
+    const response = await axios.get("http://localhost:5050/pages");
     return response.data;
   }
 );
@@ -26,7 +26,7 @@ export const editPage = createAsyncThunk<Page, Page>(
   "pages/editPage",
   async (updatedPage) => {
     const response = await axios.put(
-      `http://localhost:3000/pages/${updatedPage.id}`,
+      `http://localhost:5050/pages/${updatedPage.id}`,
       updatedPage
     );
     return response.data;
