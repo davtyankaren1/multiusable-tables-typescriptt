@@ -38,9 +38,8 @@ export const editProduct = createAsyncThunk<Product, Product>(
       );
       return response.data;
     } catch (error) {
-      console.error("Editing product failed, using fallback data:", error);
       const index = products.products.findIndex(
-        (product) => product.id === updatedProduct.id
+        (product: any) => product.id === updatedProduct.id
       );
       if (index !== -1) {
         return { ...products.products[index], ...updatedProduct };
