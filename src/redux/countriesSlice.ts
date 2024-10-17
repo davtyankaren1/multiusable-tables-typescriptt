@@ -30,7 +30,7 @@ export const fetchCountries = createAsyncThunk<Country[], void>(
 
 export const editCountry = createAsyncThunk<Country, Country>(
   "countries/editCountry",
-  async (updatedCountry) => {
+  async (updatedCountry, { getState }) => {
     try {
       const response = await axios.put<Country>(
         `http://localhost:5050/countries/${updatedCountry.id}`,
@@ -39,7 +39,17 @@ export const editCountry = createAsyncThunk<Country, Country>(
       return response.data;
     } catch (error) {
       console.error("Failed to edit country:", error);
-      throw new Error("Failed to edit country");
+
+      const state = getState() as { countries: { countries: Country[] } };
+      const index = state.countries.countries.findIndex(
+        (country) => country.id === updatedCountry.id
+      );
+
+      if (index !== -1) {
+        return { ...state.countries.countries[index], ...updatedCountry };
+      }
+
+      throw new Error("Country not found in fallback data");
     }
   }
 );
