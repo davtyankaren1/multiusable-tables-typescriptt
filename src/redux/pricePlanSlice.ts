@@ -22,7 +22,7 @@ export const fetchPricePlans = createAsyncThunk<PricePlan[]>(
       const response = await axios.get("http://localhost:5050/pricesplans");
       return response.data;
     } catch (error) {
-      console.error("Fetching products failed, using fallback data:", error);
+      console.error("Fetching price plans failed, using fallback data:", error);
       return prices.pricesplans;
     }
   }
@@ -31,11 +31,22 @@ export const fetchPricePlans = createAsyncThunk<PricePlan[]>(
 export const editPricePlan = createAsyncThunk<PricePlan, PricePlan>(
   "pricePlans/editPricePlan",
   async (updatedPricePlan) => {
-    const response = await axios.put(
-      `http://localhost:5050/pricesplans/${updatedPricePlan.id}`,
-      updatedPricePlan
-    );
-    return response.data;
+    try {
+      const response = await axios.put(
+        `http://localhost:5050/pricesplans/${updatedPricePlan.id}`,
+        updatedPricePlan
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Editing price plan failed, using fallback data:", error);
+      const index = prices.pricesplans.findIndex(
+        (plan: any) => plan.id === updatedPricePlan.id
+      );
+      if (index !== -1) {
+        return { ...prices.pricesplans[index], ...updatedPricePlan };
+      }
+      throw new Error("Price plan not found in fallback data");
+    }
   }
 );
 

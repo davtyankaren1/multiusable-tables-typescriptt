@@ -45,10 +45,14 @@ const PageList: React.FC = () => {
   if (error) return <p>Error: {error}</p>;
 
   const handleUpdateRow = async (updatedRow: any) => {
-    await dispatch(editPage(updatedRow));
-    setFilteredData((prev) =>
-      prev.map((row) => (row.id === updatedRow.id ? updatedRow : row))
-    );
+    try {
+      const response = await dispatch(editPage(updatedRow)).unwrap();
+      setFilteredData((prev) =>
+        prev.map((row) => (row.id === response.id ? response : row))
+      );
+    } catch (err) {
+      console.error("Failed to update row:", err);
+    }
   };
 
   return (

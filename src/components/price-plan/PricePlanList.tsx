@@ -47,10 +47,18 @@ const PricePlanList: React.FC = () => {
   if (error) return <p>Error: {error}</p>;
 
   const handleUpdateRow = async (updatedRow: any) => {
-    await dispatch(editPricePlan(updatedRow));
-    setFilteredData((prev) =>
-      prev.map((row) => (row.id === updatedRow.id ? updatedRow : row))
-    );
+    try {
+      const resultAction = await dispatch(editPricePlan(updatedRow));
+      if (editPricePlan.fulfilled.match(resultAction)) {
+        setFilteredData((prev) =>
+          prev.map((row) =>
+            row.id === updatedRow.id ? resultAction.payload : row
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating price plan:", error);
+    }
   };
 
   return (

@@ -44,10 +44,16 @@ const ProductList: React.FC = () => {
   if (error) return <p>Error: {error}</p>;
 
   const handleUpdateRow = async (updatedRow: any) => {
-    await dispatch(editProduct(updatedRow));
-    setFilteredData((prev) =>
-      prev.map((row) => (row.id === updatedRow.id ? updatedRow : row))
-    );
+    try {
+      const result = await dispatch(editProduct(updatedRow));
+      if (editProduct.fulfilled.match(result)) {
+        setFilteredData((prev) =>
+          prev.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+        );
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   const handleSort = (sortedData: any[]) => {

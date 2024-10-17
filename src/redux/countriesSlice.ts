@@ -15,14 +15,14 @@ const initialState: CountryState = {
   error: null
 };
 
-export const fetchCountries = createAsyncThunk<Country[]>(
+export const fetchCountries = createAsyncThunk<Country[], void>(
   "countries/fetchCountries",
   async () => {
     try {
       const response = await axios.get("http://localhost:5050/countries");
       return response.data;
     } catch (error) {
-      console.error("Fetching products failed, using fallback data:", error);
+      console.error("Fetching countries failed, using fallback data:", error);
       return countries.countries;
     }
   }
@@ -31,11 +31,16 @@ export const fetchCountries = createAsyncThunk<Country[]>(
 export const editCountry = createAsyncThunk<Country, Country>(
   "countries/editCountry",
   async (updatedCountry) => {
-    const response = await axios.put<Country>(
-      `http://localhost:5050/countries/${updatedCountry.id}`,
-      updatedCountry
-    );
-    return response.data;
+    try {
+      const response = await axios.put<Country>(
+        `http://localhost:5050/countries/${updatedCountry.id}`,
+        updatedCountry
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Failed to edit country:", error);
+      throw new Error("Failed to edit country");
+    }
   }
 );
 

@@ -15,14 +15,14 @@ const initialState: PageState = {
   error: null
 };
 
-export const fetchPages = createAsyncThunk<Page[]>(
-  "products/pages",
+export const fetchPages = createAsyncThunk<Page[], void>(
+  "pages/fetchPages",
   async () => {
     try {
       const response = await axios.get("http://localhost:5050/pages");
       return response.data;
     } catch (error) {
-      console.error("Fetching products failed, using fallback data:", error);
+      console.error("Fetching pages failed, using fallback data:", error);
       return pages.pages;
     }
   }

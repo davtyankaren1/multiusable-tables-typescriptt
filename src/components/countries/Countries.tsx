@@ -36,10 +36,18 @@ const Countries: React.FC = () => {
   if (error) return <p>Error: {error}</p>;
 
   const handleUpdateRow = async (updatedRow: any) => {
-    await dispatch(editCountry(updatedRow));
-    setFilteredData((prev) =>
-      prev.map((row) => (row.id === updatedRow.id ? updatedRow : row))
-    );
+    try {
+      const resultAction = await dispatch(editCountry(updatedRow));
+      if (editCountry.fulfilled.match(resultAction)) {
+        setFilteredData((prev) =>
+          prev.map((row) =>
+            row.id === updatedRow.id ? resultAction.payload : row
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating country:", error);
+    }
   };
 
   const handleSort = (sortedData: any[]) => {

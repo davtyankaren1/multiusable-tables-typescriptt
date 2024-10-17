@@ -31,11 +31,22 @@ export const fetchProducts = createAsyncThunk<Product[]>(
 export const editProduct = createAsyncThunk<Product, Product>(
   "products/editProduct",
   async (updatedProduct) => {
-    const response = await axios.put(
-      `http://localhost:5050/products/${updatedProduct.id}`,
-      updatedProduct
-    );
-    return response.data;
+    try {
+      const response = await axios.put(
+        `http://localhost:5050/products/${updatedProduct.id}`,
+        updatedProduct
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Editing product failed, using fallback data:", error);
+      const index = products.products.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+      if (index !== -1) {
+        return { ...products.products[index], ...updatedProduct };
+      }
+      throw new Error("Product not found in fallback data");
+    }
   }
 );
 
