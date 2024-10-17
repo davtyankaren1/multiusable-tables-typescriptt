@@ -75,7 +75,9 @@ const PricePlanList: React.FC = () => {
         </div>
       </div>
       {loading ? (
-        <Loading />
+        <div className='loading'>
+          <Loading />
+        </div>
       ) : (
         <DynamicTable data={filteredData} onUpdateRow={handleUpdateRow} />
       )}
