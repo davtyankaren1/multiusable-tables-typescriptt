@@ -2,7 +2,7 @@
   "products": [
     {
       "id": "14381328",
-      "name": "xxxx",
+      "name": "presidentoa",
       "options": {
         "size": "XL",
         "amount": 100
@@ -104,7 +104,7 @@
   "pricesplans": [
     {
       "id": "13334466",
-      "description": "as saqol",
+      "description": "as saqo",
       "active": "true",
       "createdAt": "1949-06-21T14:03:32.0Z",
       "removedAt": "1960-09-22T13:43:32.0Z"

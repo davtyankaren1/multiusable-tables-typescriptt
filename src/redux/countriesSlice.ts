@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Country } from "../types";
 import axios from "axios";
+import countries from "../../data.json";
 
 interface CountryState {
   countries: Country[];
@@ -17,10 +18,13 @@ const initialState: CountryState = {
 export const fetchCountries = createAsyncThunk<Country[]>(
   "countries/fetchCountries",
   async () => {
-    const response = await axios.get<Country[]>(
-      "http://localhost:5050/countries"
-    );
-    return response.data;
+    try {
+      const response = await axios.get("http://localhost:5050/countries");
+      return response.data;
+    } catch (error) {
+      console.error("Fetching products failed, using fallback data:", error);
+      return countries.countries;
+    }
   }
 );
 

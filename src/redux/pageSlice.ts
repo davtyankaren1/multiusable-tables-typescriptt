@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Page } from "../types";
 import axios from "axios";
+import pages from "../../data.json";
 
 interface PageState {
   pages: Page[];
@@ -15,10 +16,15 @@ const initialState: PageState = {
 };
 
 export const fetchPages = createAsyncThunk<Page[]>(
-  "pages/fetchPages",
+  "products/pages",
   async () => {
-    const response = await axios.get("http://localhost:5050/pages");
-    return response.data;
+    try {
+      const response = await axios.get("http://localhost:5050/pages");
+      return response.data;
+    } catch (error) {
+      console.error("Fetching products failed, using fallback data:", error);
+      return pages.pages;
+    }
   }
 );
 
