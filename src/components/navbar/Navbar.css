@@ -1,0 +1,45 @@
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: var(--primary);
+  padding: 10px 0;
+}
+
+nav a {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  transition: color 0.3s;
+  margin: 0 10px;
+}
+
+nav a:hover {
+  color: #d4e157;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #d4e157;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+nav a.active {
+  color: #d4e157;
+}
+
+nav a.active::after {
+  width: 100%;
+  left: 0;
+}
